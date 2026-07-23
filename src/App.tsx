@@ -1,10 +1,11 @@
 import ScrollToTop from "./components/layout/ScrollToTop"
+import AppRoutes from "./routes/AppRoutes"
 
 function App() {
   return (
     <>
       <ScrollToTop />
-      <h1>Axiom Project</h1>
+      <AppRoutes />
     </>
   )
 }
