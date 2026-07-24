@@ -12,10 +12,16 @@ import { useNavigate } from "react-router-dom";
 import { getInboxPath } from "../../routes/routes";
 import { loginThunk } from "../../store/thunks/loginThunk";
 import { useAppDispatch, useAppSelector } from "../../store/hooks";
+import { VALIDATIONS } from "../../validations/loginValidations";
 
 type LoginForm = {
     username: string;
     password: string;
+};
+
+type FormErrors = {
+    username?: string;
+    password?: string;
 };
 const Login = () => {
     const dispatch = useAppDispatch();
@@ -25,13 +31,49 @@ const Login = () => {
         username: "",
         password: "",
     });
+    const [errors, setErrors] = React.useState<FormErrors>({});
+
+    const validateField = (field: keyof LoginForm, value: string): string | undefined => {
+        const fieldValidations = VALIDATIONS[field];
+
+        // Check required
+        if (fieldValidations.required && !value.trim()) {
+            return fieldValidations.required;
+        }
+
+        // Check pattern
+        if ("pattern" in fieldValidations && value.trim()) {
+            const { value: pattern, message } = fieldValidations.pattern;
+            if (!pattern.test(value)) {
+                return message;
+            }
+        }
+
+        // Check minLength
+        if ("minLength" in fieldValidations && value.trim()) {
+            const { value: minLen, message } = fieldValidations.minLength;
+            if (value.length < minLen) {
+                return message;
+            }
+        }
+
+        return undefined;
+    };
 
     const handleChange =
         (field: keyof LoginForm) =>
             (event: React.ChangeEvent<HTMLInputElement>) => {
+                const value = event.target.value;
                 setFormData((prev) => ({
                     ...prev,
-                    [field]: event.target.value,
+                    [field]: value,
+                }));
+
+                // Validate field and update errors
+                const error = validateField(field, value);
+                setErrors((prev) => ({
+                    ...prev,
+                    [field]: error,
                 }));
             };
 
@@ -42,8 +84,15 @@ const Login = () => {
 
         const data = formData;
 
-        if (!data.username.trim() || !data.password.trim()) {
-            alert("Username and Password are required");
+        // Validate all fields
+        const usernameError = validateField("username", data.username);
+        const passwordError = validateField("password", data.password);
+
+        if (usernameError || passwordError) {
+            setErrors({
+                username: usernameError,
+                password: passwordError,
+            });
             return;
         }
 
@@ -145,6 +194,8 @@ const Login = () => {
                                 autoComplete="username"
                                 value={formData.username}
                                 onChange={handleChange("username")}
+                                error={!!errors.username}
+                                helperText={errors.username}
                             />
                         </Box>
 
@@ -161,6 +212,8 @@ const Login = () => {
                                 autoComplete="current-password"
                                 value={formData.password}
                                 onChange={handleChange("password")}
+                                error={!!errors.password}
+                                helperText={errors.password}
                             />
 
                             <Typography
