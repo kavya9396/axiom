@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { loginThunk } from "../thunks/loginThunk";
-import type { LoginResponse } from "../../types/login";
+import type { LoginResponse } from "../../types/login.types";
 
 interface AppState {
   auth: {

@@ -1,4 +1,5 @@
 import { Box, Divider, Typography } from "@mui/material";
+import { COLORS } from "../../utils/styles";
 
 export type GridItem = {
   label: string;
@@ -18,7 +19,7 @@ export const GridSection = ({
   columns = 3,
   items,
   showDivider = false,
-  backgroundColor = "#f6f6f6",
+  backgroundColor = COLORS.lightGray,
 }: GridSectionProps) => {
   return (
     <Box>
@@ -40,7 +41,7 @@ export const GridSection = ({
             <Typography sx={{ color: "#444", fontSize: 14, fontWeight: 400 }}>
               {item.label}
             </Typography>
-            <Typography sx={{ color: "#161616", fontWeight: 600, fontSize: 12 }}>
+            <Typography sx={{ color: COLORS.charcoal, fontWeight: 600, fontSize: 12 }}>
               {item.value ?? "-"}
             </Typography>
           </Box>

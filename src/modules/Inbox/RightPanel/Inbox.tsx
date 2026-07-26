@@ -1,9 +1,10 @@
 import { Box, Grid } from "@mui/material"
-import LeftPanel, { ALL_CASES_POOL } from "./LeftPanel"
+import LeftPanel, { ALL_CASES_POOL } from "../LeftPanel/LeftPanel"
 import { useCallback, useEffect, useRef, useState } from "react";
-import type { tableData } from "../../types/inbox.types";
-import { useAppDispatch } from "../../store/hooks";
-import { fetchInboxThunk } from "../../store/thunks/inboxThunk";
+import type { tableData } from "../../../types/inbox.types";
+import { useAppDispatch } from "../../../store/hooks";
+import { fetchInboxThunk } from "../../../store/thunks/inboxThunk";
+import RightPanel from "../RightPanel/RightPanel";
 
 const Inbox = () => {
   const dispatch = useAppDispatch();
@@ -11,8 +12,9 @@ const Inbox = () => {
   const [selectedPool, setSelectedPool] = useState("");
   const [poolData, setPoolData] = useState<Record<string, tableData[]>>({});
   const isRefreshing = useRef(false);
+  const allRows = Object.values(poolData).flat();
 
-   const loadData = useCallback(async () => {
+  const loadData = useCallback(async () => {
     if (isRefreshing.current) return;
     isRefreshing.current = true;
 
@@ -59,7 +61,7 @@ const Inbox = () => {
 
   return (
     <Box>
-      <Grid container sx={{ flexWrap: "nowrap" }} className="bg-grey-200">
+      <Grid container sx={{ flexWrap: "nowrap" }}>
         <LeftPanel
           selectedPool={selectedPool}
           toggle={toggle}
@@ -67,8 +69,13 @@ const Inbox = () => {
           onSelectPool={setSelectedPool}
           poolData={poolData}
         />
+        <Box sx={{ flex: 1 }}>
+          <RightPanel 
+            selectedPool={selectedPool}
+            rows={selectedPool === ALL_CASES_POOL ? allRows : (poolData[selectedPool] ?? [])}
+          />
+        </Box>
       </Grid>
-
     </Box>
   )
 }

@@ -4,6 +4,7 @@ import {
   Select,
   MenuItem,
   Typography,
+  Box,
 } from "@mui/material";
 import type { SelectChangeEvent } from "@mui/material/Select";
 
@@ -57,7 +58,7 @@ export default function CustomSelect({
   };
 
   return (
-    <div>
+    <Box>
       {label && (
         <Typography
           sx={{
@@ -117,6 +118,6 @@ export default function CustomSelect({
         </Select>
         {!!helperText && <FormHelperText>{helperText}</FormHelperText>}
       </FormControl>
-    </div>
+    </Box>
   );
 }

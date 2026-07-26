@@ -2,7 +2,17 @@ export const COLORS = {
   primary: "#9A2529",
   secondary: "#063E6F",
   charcoal: "#161616",
-  frost: "#F0F3F8"
+  darkGray: "#1E1E1E",
+  lightGray: "#F6F6F6",
+  frost: "#F0F3F8",
+  white: "#FFFFFF",
+  cream: "#FFF4D6",
+  aliceBlue: "#F5FAFF",
+  pastelYellow: "#FFE9A8",
+  darkAmber: "#7A4E00",
+  blush: "#FDE8E8",
+  rose: "#FBD5D5",
+  burgundy: "#9A2529",
 } as const;
 
 export const columnFlex = {
@@ -14,6 +24,12 @@ export const centerFlex = {
   display: "flex",
   alignItems: "center",
   justifyContent: "center",
+};
+
+export const commonFlexBetween = {
+  display: "flex",
+  justifyContent: "space-between",
+  alignItems: "center",
 };
 
 export const selectedSx = {

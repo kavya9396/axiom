@@ -1,6 +1,6 @@
 import { Typography } from "@mui/material";
 import CustomDialog from "../ui/Dialog/Dialog";
-import { modalTitleStyles } from "../../utils/styles";
+import { COLORS, modalTitleStyles } from "../../utils/styles";
 import CustomButton from "../ui/Button/Button";
 
 type ConfirmationDialogProps = {
@@ -48,7 +48,7 @@ const ConfirmationDialog = ({
         </CustomButton>
       }
     >
-      <Typography sx={{ fontSize: "12px", color: "#161616" }}>
+      <Typography sx={{ fontSize: "12px", color: COLORS.charcoal }}>
         {message}
       </Typography>
     </CustomDialog>

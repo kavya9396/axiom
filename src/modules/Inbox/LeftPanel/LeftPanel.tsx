@@ -1,21 +1,22 @@
 import { Box, List, Paper, Typography } from "@mui/material";
-import type { PoolItemProps, PoolProps, tableData } from "../../types/inbox.types";
+import type { PoolItemProps, PoolProps, tableData } from "../../../types/inbox.types";
 import {
     InboxIcon,
     KeyRightArrowIcon,
     MenuIcon,
     TaskIcon,
-} from "../../icons/Icons";
-import { columnFlex, hoverSx, selectedSx } from "../../utils/styles";
+} from "../../../icons/Icons";
+import { COLORS, columnFlex, hoverSx, selectedSx } from "../../../utils/styles";
 import LastLogin from "./LastLogin";
 import { useNavigate } from "react-router-dom";
-import { getSearchApplicationPath } from "../../routes/routes";
+import { getSearchApplicationPath } from "../../../routes/routes";
 
 export const ALL_CASES_POOL = "ALL CASES";
 
 type LeftPanelProps = PoolProps & {
     poolData: Record<string, tableData[]>;
 };
+
 function toTitleCase(str: string): string {
     return str
         .toLowerCase()
@@ -98,7 +99,7 @@ const LeftPanel = ({
         <Box
             sx={{
                 width: toggle ? "48px" : "236px",
-                backgroundColor: "#fff",
+                backgroundColor: COLORS.white,
                 transition: "all 0.3s",
                 overflow: "hidden",
                 height: "92vh",

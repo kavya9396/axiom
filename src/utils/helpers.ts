@@ -31,3 +31,9 @@ export const formatSessionTime = (remainingMs: number) => {
 
   return `${minutes}:${seconds}`;
 };
+
+export const toFilterComparableValue = (value: unknown): string => {
+  if (typeof value === "boolean") return value ? "Yes" : "No";
+  if (value == null) return "";
+  return String(value);
+};

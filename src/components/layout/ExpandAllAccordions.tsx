@@ -1,5 +1,6 @@
 import { Box, Container } from "@mui/material";
 import CustomButton from "../ui/Button/Button";
+import { COLORS } from "../../utils/styles";
 
 interface ExpandAllAccordionProps {
   onExpandAll: () => void;
@@ -23,7 +24,7 @@ const ExpandAllAccordions: React.FC<ExpandAllAccordionProps> = ({
         <CustomButton
           variant="text"
           sx={{
-            color: "#1E1E1E",
+            color: COLORS.darkGray,
             textDecoration: "underline",
             "&:hover": {
               textDecoration: "underline",

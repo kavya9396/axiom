@@ -101,3 +101,28 @@ export type UserContextResponse = {
   pools?: Record<string, string[]>;
   poolData?: Record<string, tableData[]>;
 };
+
+export interface TableColumn<T = unknown> {
+  key: keyof T;
+  label: string;
+  width?: number;
+  numeric?: boolean;
+};
+
+export type PoolStatusFilter = "All" | "Active" | "Error";
+export type SortDirection = "asc" | "desc";
+export type TaskTimingStatus = "normal" | "atRisk" | "due";
+export type TaskTimingColumnKey = "start_time" | "at_risk_time" | "due_date";
+
+export type ClaimTaskRequest = {
+  username: string;
+  password: string;
+  taskId: string;
+};
+
+export type ClaimTaskResponse = {
+  id?: string;
+  state?: string;
+  message?: string;
+  success?: boolean;
+};

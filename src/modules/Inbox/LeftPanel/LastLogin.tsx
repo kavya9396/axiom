@@ -1,6 +1,6 @@
 import { Typography } from "@mui/material";
 import React from "react";
-import { getDayWithOrdinal } from "../../utils/helpers";
+import { getDayWithOrdinal } from "../../../utils/helpers";
 
 type LastLoginProps = {
   lastLogin: string | Date;
