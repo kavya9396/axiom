@@ -18,6 +18,12 @@ const apiUrls = {
     real: "/src/mock/Login/login.json",
     mock: "/src/mock/Login/login.json",
   },
+
+  // Inbox
+  roleList: {
+    real: "http://172.30.74.182:8112/icic-drs-landing-service/v1/role-list",
+    mock: "/src/mock/inbox/roleList.json",
+  },
  
 } as const;
  

@@ -58,10 +58,6 @@ export default function SearchBar({
         sx={inputStyles}
         inputProps={{ "aria-label": "search input" }}
       />
-
-      {/* <IconButton size="small" aria-label="search">
-        <SearchIcon />
-      </IconButton> */}
     </Paper>
   );
 }

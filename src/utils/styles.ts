@@ -1,3 +1,10 @@
+export const COLORS = {
+  primary: "#9A2529",
+  secondary: "#063E6F",
+  charcoal: "#161616",
+  frost: "#F0F3F8"
+} as const;
+
 export const columnFlex = {
   display: "flex",
   flexDirection: "column",
@@ -18,6 +25,16 @@ export const selectedSx = {
 };
 
 export const hoverSx = {
+  cursor: "pointer",
+  "&:hover": {
+    backgroundColor: "#f3f4f6",
+  },
+};
+
+export const menuItemStyles = {
+  px: 2,
+  py: 1,
+  mt: 1,
   cursor: "pointer",
   "&:hover": {
     backgroundColor: "#f3f4f6",

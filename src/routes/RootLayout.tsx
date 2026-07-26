@@ -1,5 +1,7 @@
 import { Outlet } from "react-router-dom";
 import Header from "../components/layout/Header";
+import { Box } from "@mui/material";
+import { COLORS } from "../utils/styles";
 // import QuickLinks from "../modules/DRS/QuickLinks";
 
 export default function RootLayout() {
@@ -14,11 +16,16 @@ export default function RootLayout() {
             <header>
                 <Header />
             </header>
-
-            <main style={{backgroundColor: "#F0F3F8", minHeight: "90vh"}}>
+            <Box
+                component="main"
+                sx={{
+                    bgcolor: COLORS.frost,
+                    minHeight: "calc(100vh - 64px)",
+                }}
+            >
                 <Outlet />
                 {/* {shouldShowQuickLinks && <QuickLinks />} */}
-            </main>
+            </Box>
         </>
     );
 }

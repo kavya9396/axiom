@@ -5,34 +5,24 @@ import { useEffect, useState } from "react";
 import { KeyDownArrowIcon, KeyRightArrowIcon, KeyUpArrowIcon, LogoutIcon, TimerPauseIcon, UserProfileIcon } from "../../icons/Icons";
 import { useNavigate } from "react-router-dom";
 import BreakTime from "./BreakTime";
-
-const formatDateTime = (date: Date) =>
-  date.toLocaleString("en-IN", {
-    day: "2-digit",
-    month: "short",
-    year: "numeric",
-    hour: "2-digit",
-    minute: "2-digit",
-    second: "2-digit",
-    hour12: true,
-  });
+import { COLORS, menuItemStyles } from "../../utils/styles";
+import { useSessionTimeout } from "./SessionTimeout/sessionTimeoutContext";
+import { auth } from "../../utils/auth";
+import { formatDateTime, formatSessionTime } from "../../utils/helpers";
 
 const Header = () => {
   const navigate = useNavigate();
-  const username = localStorage.getItem("username") ?? "";
+  const [username] = useState(
+    () => localStorage.getItem("username") ?? ""
+  );
+  const { remainingMs } = useSessionTimeout();
   const [dialogOpen, setDialogOpen] = useState<boolean>(false);
   const [currentTime, setCurrentTime] = useState(() => formatDateTime(new Date()));
   const [userMenuAnchor, setUserMenuAnchor] = useState<HTMLElement | null>(
     null,
   );
   const isUserMenuOpen = Boolean(userMenuAnchor);
-  useEffect(() => {
-    const interval = window.setInterval(() => {
-      setCurrentTime(formatDateTime(new Date()));
-    }, 1000);
 
-    return () => window.clearInterval(interval);
-  }, []);
   const handleUserMenuOpen = (event: React.MouseEvent<HTMLButtonElement>) => {
     setUserMenuAnchor(event.currentTarget);
   };
@@ -40,13 +30,26 @@ const Header = () => {
   const handleUserMenuClose = () => {
     setUserMenuAnchor(null);
   };
+
+  const handleLogout = () => {
+    auth.logout();
+    navigate("/login");
+  };
+
+  useEffect(() => {
+    const interval = window.setInterval(() => {
+      setCurrentTime(formatDateTime(new Date()));
+    }, 1000);
+
+    return () => window.clearInterval(interval);
+  }, []);
+
   return (
     <Box
       sx={{
         display: "flex",
         alignItems: "center",
         justifyContent: "space-between",
-        p: 1,
         backgroundColor: "#fff",
         boxShadow: 1,
       }}
@@ -54,17 +57,20 @@ const Header = () => {
       {/* LEFT LOGO SECTION */}
       <Box sx={{ display: "flex", alignItems: "center", gap: 2, ml: 2 }}>
         <Box component="img" src={Logo} alt="ICICI Prudential Logo" />
-
         <Box sx={{ width: "1px", height: 32, backgroundColor: "#d1d5db" }} />
-
         <Box component="img" src={AxiomLogo} alt="Axiom Logo" />
       </Box>
 
       {/* RIGHT SECTION USER DETAILS */}
       <Box sx={{ display: "flex", alignItems: "center", gap: 2, mr: 2 }}>
-        <Typography sx={{ fontSize: 12, color: "#4b5563", minWidth: 180, textAlign: "right" }}>
-          {currentTime}
-        </Typography>
+        <Box sx={{ minWidth: 180, textAlign: "right" }}>
+          <Typography sx={{ fontSize: 12, color: "#4b5563", minWidth: 180, textAlign: "right" }}>
+            {currentTime}
+          </Typography>
+          <Typography sx={{ fontSize: 11, fontWeight: 700, color: COLORS.primary }}>
+            Session: {formatSessionTime(remainingMs)}
+          </Typography>
+        </Box>
         <Box>
           <Button onClick={handleUserMenuOpen}>
             {/* USER ICON */}
@@ -77,7 +83,7 @@ const Header = () => {
                 borderRadius: "50%",
               }}
             >
-              <Box sx={{ color: "#9A2529", mt: 0.5 }}>
+              <Box sx={{ color: COLORS.primary, mt: 0.5 }}>
                 <UserProfileIcon />
               </Box>
             </Box>
@@ -95,25 +101,18 @@ const Header = () => {
                 sx={{
                   fontSize: 12,
                   fontWeight: 700,
-                  color: "#9A2529",
+                  color: COLORS.primary,
                 }}
               >
                 {username}
               </Typography>
-              {/* <Typography sx={{ color: "#323232", fontSize: 10 }}>
-                UW1234
-              </Typography> */}
             </Box>
 
             {/* ARROW */}
             {isUserMenuOpen ? (
-              <Box sx={{ color: "#9A2529" }}>
-                <KeyUpArrowIcon />
-              </Box>
+              <KeyUpArrowIcon color={COLORS.primary} />
             ) : (
-              <Box sx={{ color: "#9A2529" }}>
-                <KeyDownArrowIcon />
-              </Box>
+              <KeyDownArrowIcon color={COLORS.primary} />
             )}
           </Button>
 
@@ -140,11 +139,7 @@ const Header = () => {
                 setDialogOpen(true);
               }}
               sx={{
-                px: 2,
-                py: 1,
-                mt: 1,
-                cursor: "pointer",
-                "&:hover": { backgroundColor: "#f3f4f6" },
+                ...menuItemStyles
               }}
             >
               <Box sx={{ display: "flex", justifyContent: "space-between" }}>
@@ -173,19 +168,9 @@ const Header = () => {
             {/* LOGOUT */}
             <Box
               sx={{
-                px: 2,
-                py: 1,
-                mt: 1,
-                cursor: "pointer",
-                "&:hover": { backgroundColor: "#f3f4f6" },
+                ...menuItemStyles
               }}
-              onClick={() => {
-                localStorage.removeItem("token"); // or your key name
-                localStorage.removeItem("username");
-                localStorage.removeItem("column_config_v1");
-                localStorage.removeItem("roleType");
-                navigate("/login");
-              }}
+              onClick={handleLogout}
             >
               <Box sx={{ display: "flex", alignItems: "center", gap: 1.5 }}>
                 <LogoutIcon />

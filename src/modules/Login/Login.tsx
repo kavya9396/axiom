@@ -4,7 +4,7 @@ import LoginImage from "../../assets/Login-Image.svg";
 import IPRULogo from "../../assets/ICICI-Logo.svg";
 import AxiomLogo from "../../assets/Axiom Logo.svg";
 import IBMLogo from "../../assets/IBM Logo.svg";
-import { centerFlex, columnFlex } from "../../utils/styles";
+import { centerFlex, COLORS, columnFlex } from "../../utils/styles";
 import CustomTextField from "../../components/ui/TextField/TextField";
 import CustomCheckbox from "../../components/ui/Checkbox/Checkbox";
 import CustomButton from "../../components/ui/Button/Button";
@@ -23,6 +23,7 @@ type FormErrors = {
     username?: string;
     password?: string;
 };
+
 const Login = () => {
     const dispatch = useAppDispatch();
     const navigate = useNavigate();
@@ -184,10 +185,16 @@ const Login = () => {
                     >
                         {/* Username */}
                         <Box>
-                            <Typography variant="body2" sx={{ mb: 1 }}>
-                                User ID*
-                            </Typography>
 
+                            <Typography variant="body2" sx={{ mb: 1 }}>
+                                User ID
+                                <Box
+                                    component="span"
+                                    sx={{ color: COLORS.primary }}
+                                >
+                                    *
+                                </Box>
+                            </Typography>
                             <CustomTextField
                                 fullWidth
                                 placeholder="Enter your User ID"
@@ -202,7 +209,13 @@ const Login = () => {
                         {/* Password */}
                         <Box>
                             <Typography variant="body2" sx={{ mb: 1 }}>
-                                Password*
+                                Password
+                                <Box
+                                    component="span"
+                                    sx={{ color: COLORS.primary }}
+                                >
+                                    *
+                                </Box>
                             </Typography>
 
                             <CustomTextField
@@ -219,7 +232,7 @@ const Login = () => {
                             <Typography
                                 variant="caption"
                                 color="text.secondary"
-                                sx={{ mt: 1, fontSize: "11px" }}
+                                sx={{ mt: 1, fontSize: "10px" }}
                             >
                                 It must be at least 8 characters long and include letters and numbers.
                             </Typography>

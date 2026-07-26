@@ -3,6 +3,7 @@ import Login from "../modules/Login/Login";
 import { PATHS } from "./paths";
 import RootLayout from "./RootLayout";
 import Inbox from "../modules/Inbox/Inbox";
+import ProtectedRoute from "./ProtectedRoute";
 
 export default function AppRoutes() {
     return (
@@ -11,8 +12,11 @@ export default function AppRoutes() {
             <Route path="/login" element={<Login />} />
             <Route path="/" element={<Navigate to="/login" replace />} />
 
-            <Route path={PATHS.INBOX} element={<RootLayout />}>
+            {/* PROTECTED */}
+            <Route element={<ProtectedRoute />}>
+                <Route path={PATHS.INBOX} element={<RootLayout />}>
                     <Route index element={<Inbox />} />
+                </Route>
             </Route>
 
             {/* FALLBACK */}
