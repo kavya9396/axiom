@@ -1,0 +1,10 @@
+{
+  "success": true,
+  "hasPreference": false,
+  "message": "No saved column preference found",
+  "data": {
+    "visibleColumns": [],
+    "hiddenColumns": [],
+    "columnSequence": []
+  }
+}

@@ -1,4 +1,4 @@
-import { Box } from "@mui/material";
+import { Box, Typography } from "@mui/material";
 import type { TableColumn, tableData } from "../../../types/inbox.types";
 import { columnFlex } from "../../../utils/styles";
 import { useCallback, useEffect, useMemo, useState } from "react";
@@ -27,8 +27,10 @@ const RightPanel = ({
     selectedPool: string;
     rows: tableData[];
 }) => {
-    const username = localStorage.getItem("username") ?? "";
-
+    const username = useMemo(
+        () => localStorage.getItem("username") ?? "",
+        [],
+    );
     const [isSearchOpen, setIsSearchOpen] = useState(false);
     const [openTransferDialog, setOpenTransferDialog] = useState(false);
     const [openFilterDialog, setOpenFilterDialog] = useState<boolean>(false);
@@ -40,6 +42,8 @@ const RightPanel = ({
         config,
         updateConfig,
         maxVisibleColumns,
+        isConfigLoading,
+        configError,
     } = useColumnConfig(username, selectedPool, rows);
 
     const columnByKey = useMemo(
@@ -109,6 +113,19 @@ const RightPanel = ({
         resetPage();
     }, [sortKey, sortDirection, resetPage]);
 
+    useEffect(() => {
+        if (configError) {
+            setClaimError(configError);
+        }
+    }, [configError, setClaimError]);
+
+    const handleTableApplicationClick = useCallback(
+        (e: React.MouseEvent<HTMLElement>, row: tableData) => {
+            void handleApplicationClick(e, row);
+        },
+        [handleApplicationClick],
+    );
+
     const handleApply = useCallback(async () => {
         try {
             await save();
@@ -175,30 +192,45 @@ const RightPanel = ({
                                 borderRadius: "0 0 20px 20px",
                             }}
                         >
-                            <InboxTable
-                                hasTableData={hasTableData}
-                                visibleColumns={visibleColumns}
-                                paginatedRows={paginatedRows}
-                                onSort={handleSort}
-                                getSortIndicator={getSortIndicator}
-                                onApplicationClick={(e, row) => {
-                                    void handleApplicationClick(e, row);
-                                }}
-                            />
-                            {/* Footer Pagination */}
-                            {paginatedRows.length > 0 && (
-                                <TablePaginationFooter
-                                    page={page}
-                                    rowsPerPage={rowsPerPage}
-                                    totalPages={totalPages}
-                                    totalCount={totalCount}
-                                    startRecord={startRecord}
-                                    endRecord={endRecord}
-                                    onPrevious={goToPreviousPage}
-                                    onNext={goToNextPage}
-                                    onPageChange={goToPage}
-                                    onRowsPerPageChange={handleChangeRowsPerPage}
-                                />
+                            {isConfigLoading ? (
+                                <Box
+                                    sx={{
+                                        flex: 1,
+                                        display: "flex",
+                                        alignItems: "center",
+                                        justifyContent: "center",
+                                    }}
+                                >
+                                    <Typography sx={{ color: "#666" }}>
+                                        Loading saved columns...
+                                    </Typography>
+                                </Box>
+                            ) : (
+                                <>
+                                    <InboxTable
+                                        hasTableData={hasTableData}
+                                        visibleColumns={visibleColumns}
+                                        paginatedRows={paginatedRows}
+                                        onSort={handleSort}
+                                        getSortIndicator={getSortIndicator}
+                                        onApplicationClick={handleTableApplicationClick}
+                                    />
+                                    {/* Footer Pagination */}
+                                    {paginatedRows.length > 0 && (
+                                        <TablePaginationFooter
+                                            page={page}
+                                            rowsPerPage={rowsPerPage}
+                                            totalPages={totalPages}
+                                            totalCount={totalCount}
+                                            startRecord={startRecord}
+                                            endRecord={endRecord}
+                                            onPrevious={goToPreviousPage}
+                                            onNext={goToNextPage}
+                                            onPageChange={goToPage}
+                                            onRowsPerPageChange={handleChangeRowsPerPage}
+                                        />
+                                    )}
+                                </>
                             )}
                         </Box>
 

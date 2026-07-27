@@ -22,17 +22,17 @@ const apiUrls = {
   // Inbox
   roleList: {
     real: "http://172.30.74.182:8112/icic-drs-landing-service/v1/role-list",
-    mock: "/src/mock/inbox/roleList.json",
+    mock: "/src/mock/Inbox/roleList.json",
   },
   columnConfigSave: {
     real: "/api/inbox/column-config",
-    mock: "/src/mock/inbox/columnConfigSave.json",
+    mock: "/src/mock/Inbox/columnConfigSave.json",
   },
 
   //Claim Task
   claimTask: {
     real: "http://172.30.74.182:8112/icic-drs-landing-service/v1/bpm/user-tasks/claim",
-    mock: "/src/mock/inbox/claimTask.json"
+    mock: "/src/mock/Inbox/claimTask.json"
   },
  
 } as const;

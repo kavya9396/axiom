@@ -1,9 +1,11 @@
 import { configureStore } from "@reduxjs/toolkit";
 import loginReducer from "./slices/loginSlice";
+import columnConfigReducer from "./slices/columnConfigSlice";
 
 export const store = configureStore({
   reducer: {
     login: loginReducer,
+    columnConfig: columnConfigReducer,
   },
 });
 
